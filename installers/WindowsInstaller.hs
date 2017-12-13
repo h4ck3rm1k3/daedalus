@@ -20,7 +20,7 @@ launcherScript =
   , "set API=etc"
   , "set MANTIS_PATH=%DAEDALUS_DIR%\\resources\\app\\mantis"
   , "set MANTIS_CMD=mantis.exe"
-  , "Daedalus.exe"
+  , "start Daedalus.exe"
   ]
 
 daedalusShortcut :: [Attrib]
