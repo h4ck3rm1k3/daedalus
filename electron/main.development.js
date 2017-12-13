@@ -74,16 +74,16 @@ if (isEtcApi && mantisCmd && mantisPath) {
 
   // Stop Mantis (on app quit)
   app.on('will-quit', () => {
-    Log.info('Stopping Mantis(PID '+mantis.pid+')...');
-    if (process.platform == 'win32') {
-      Log.info("with taskkill");
-      spawn("taskkill", ["/F", "/T", "/PID", mantis.pid]); // Kill main Mantis process
+    Log.info('Stopping Mantis(PID ' + mantis.pid + ')...');
+    if (process.platform === 'win32') {
+      Log.info('with taskkill');
+      spawn('taskkill', ['/F', '/T', '/PID', mantis.pid]); // Kill main Mantis process
     } else {
-      Log.info("with process.kill");
+      Log.info('with process.kill');
       psTree(mantis.pid, (err, children) => {
         // Kill all Mantis child processes
-        children.forEach(function (proc) {
-          Log.info("and child " + proc.PID);
+        children.forEach((proc) => {
+          Log.info('and child ' + proc.PID);
           process.kill(proc.PID);
         });
       });
