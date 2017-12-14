@@ -1,0 +1,8 @@
+steps:
+  - label: 'daedalus-x86_64-darwin'
+    command: 'scripts/nix-shell.sh --run scripts/build-installer-unix.sh "$VERSION" "$CARDANO_SL_BRANCH"  --build-id "BUILDKITE_BUILD_NUMBER" --travis-pr "$BUILDKITE_PULL_REQUEST"'
+    env:
+      VERSION: 0.8.2
+      CARDANO_SL_BRANCH: cardano-sl-1.0
+    agents:
+      system: x86_64-darwin
