@@ -14,6 +14,8 @@ import           Turtle.Line        (unsafeTextToLine)
 
 import           Launcher
 
+import qualified Data.ByteString.Lazy as LBS
+
 launcherScript :: [String]
 launcherScript =
   [ "@echo off"
@@ -178,6 +180,8 @@ writeInstallerNSIS fullVersion predownloadChain = do
           [Target "$INSTDIR/uninstall.exe", IconFile "$INSTDIR/uninstall.exe", IconIndex 0]
         createShortcut "$SMPROGRAMS/Daedalus Mantis/Daedalus.lnk" daedalusShortcut
     return ()
+  temp <- LBS.readFile "daedalus.nsi"
+  print temp
   return outputFile
 
 main :: IO ()
