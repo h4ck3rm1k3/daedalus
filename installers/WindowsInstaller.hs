@@ -113,10 +113,10 @@ writeInstallerNSIS fullVersion predownloadChain = do
   writeFile "daedalus.nsi" $ nsis $ do
     _ <- constantStr "Version" (str fullVersion)
     if True then do
-      constantStr "bootstrap_url" bootstrap_url
+      constantStr "bootstrapUrl" bootstrap_url
       constantStr "backendPath" backendPath
-      constantStr "bootstrap_hash" bootstrap_hash
-      constantInt "bootstrap_size" bootstrap_size
+      constantStr "bootstrapHash" bootstrap_hash
+      constantInt "bootstrapSize" bootstrap_size
       pure ()
     else
       pure ()
@@ -163,7 +163,7 @@ writeInstallerNSIS fullVersion predownloadChain = do
 
         execWait "build-certificates-win64-mantis.bat \"$INSTDIR\" >\"%APPDATA%\\DaedalusMantis\\Logs\\build-certificates.log\" 2>&1"
         if predownloadChain then
-          execWait "\"$backendPath\" bootstrap \"$bootstrap_url\" $bootstrap_hash $bootstrap_size"
+          execWait "\"$backendPath\" bootstrap \"$bootstrapUrl\" $bootstrapHash $bootstrapSize"
         else
           pure ()
 
