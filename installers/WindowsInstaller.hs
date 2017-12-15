@@ -97,9 +97,12 @@ writeInstallerNSIS fullVersion predownloadChain = do
   tempDir <- fmap fromJust $ lookupEnv "TEMP"
   let viProductVersion = L.intercalate "." $ parseVersion fullVersion
   let
+    bootstrap_url :: String
     bootstrap_url = "https://s3-eu-west-1.amazonaws.com/iohk.mantis.bootstrap/mantis-boot-classic-14DEC.zip"
+    bootstrap_hash :: String
     bootstrap_hash = "58d4f300ce803788b6e5362a0f2541c8"
     -- how much space the chain will take in gig
+    bootstrap_size :: Int
     bootstrap_size = 33
   let -- Where to produce the installer
     outputFile :: String
@@ -107,16 +110,17 @@ writeInstallerNSIS fullVersion predownloadChain = do
         "daedalus-win64-" <> fullVersion <> "-installer-with-chain.exe"
       else
         "daedalus-win64-" <> fullVersion <> "-installer.exe"
+    backendPath :: String
     backendPath = if False then "$INSTDIR\\cardano-node.exe" else "$INSTDIR\\resources\\app\\mantis\\mantis.exe"
     backendName = if False then "Cardano Node" else "Mantis Node"
   echo $ unsafeTextToLine $ pack $ "VIProductVersion: " <> viProductVersion
   writeFile "daedalus.nsi" $ nsis $ do
     _ <- constantStr "Version" (str fullVersion)
     if True then do
-      constantStr "bootstrapUrl" bootstrap_url
-      constantStr "backendPath" backendPath
-      constantStr "bootstrapHash" bootstrap_hash
-      constantInt "bootstrapSize" bootstrap_size
+      constantStr "bootstrapUrl" $ fromString bootstrap_url
+      constantStr "backendPath" $ fromString backendPath
+      constantStr "bootstrapHash" $ fromString bootstrap_hash
+      constantInt "bootstrapSize" $ fromIntegral bootstrap_size
       pure ()
     else
       pure ()
@@ -156,14 +160,14 @@ writeInstallerNSIS fullVersion predownloadChain = do
         file [Recursive] "..\\release\\win32-x64\\Daedalus-win32-x64\\"
 
         mapM_ unsafeInject
-          [ "liteFirewall::AddRule \"$backendPath\" \"" <> backendName <> "\""
+          [ "liteFirewall::AddRule \"" <> backendPath <> "\" \"" <> backendName <> "\""
           , "Pop $0"
           , "DetailPrint \"liteFirewall::AddRule: $0\""
           ]
 
         execWait "build-certificates-win64-mantis.bat \"$INSTDIR\" >\"%APPDATA%\\DaedalusMantis\\Logs\\build-certificates.log\" 2>&1"
         if predownloadChain then
-          execWait "\"$backendPath\" bootstrap \"$bootstrapUrl\" $bootstrapHash $bootstrapSize"
+          unsafeInject $ "ExecWait \"$\\\"" <> backendPath <> "$\\\" bootstrap $\\\"" <> bootstrap_url <> "$\\\" " <> bootstrap_hash <> " " <> (show bootstrap_size) <> "\""
         else
           pure ()
 
