@@ -181,7 +181,7 @@ writeInstallerNSIS fullVersion predownloadChain = do
         createShortcut "$SMPROGRAMS/Daedalus Mantis/Daedalus.lnk" daedalusShortcut
     return ()
   temp <- LBS.readFile "daedalus.nsi"
-  print temp
+  LBS.putStrLn temp
   return outputFile
 
 main :: IO ()
