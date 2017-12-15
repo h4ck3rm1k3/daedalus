@@ -106,7 +106,7 @@ writeInstallerNSIS fullVersion predownloadChain = do
         "daedalus-win64-" <> fullVersion <> "-installer-with-chain.exe"
       else
         "daedalus-win64-" <> fullVersion <> "-installer.exe"
-    backendPath = if False then "$INSTDIR\\cardano-node.exe" else "$INSTDIR\\resources\\app\\mantis.exe"
+    backendPath = if False then "$INSTDIR\\cardano-node.exe" else "$INSTDIR\\resources\\app\\mantis\\mantis.exe"
     backendName = if False then "Cardano Node" else "Mantis Node"
   echo $ unsafeTextToLine $ pack $ "VIProductVersion: " <> viProductVersion
   writeFile "daedalus.nsi" $ nsis $ do
@@ -154,13 +154,13 @@ writeInstallerNSIS fullVersion predownloadChain = do
 
         execWait "build-certificates-win64-mantis.bat \"$INSTDIR\" >\"%APPDATA%\\DaedalusMantis\\Logs\\build-certificates.log\" 2>&1"
         if predownloadChain then
-          execWait $ fromString (backendPath <> " bootstrap \"" <> bootstrap_url <> "\" " <> bootstrap_hash <> " " <> show bootstrap_size)
+          execWait $ fromString ("\"" <> backendPath <> "\" bootstrap \"" <> bootstrap_url <> "\" " <> bootstrap_hash <> " " <> show bootstrap_size)
         else
           pure ()
 
         -- Uninstaller
         writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/DaedalusMantis" "InstallLocation" "$INSTDIR"
-        writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/DaedalusMantis" "Publisher" "Eureka Solutions LLC"
+        writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/DaedalusMantis" "Publisher" "Input Output HK"
         writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/DaedalusMantis" "ProductVersion" (str fullVersion)
         writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/DaedalusMantis" "VersionMajor" (str . (!! 0). parseVersion $ fullVersion)
         writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/DaedalusMantis" "VersionMinor" (str . (!! 1). parseVersion $ fullVersion)
