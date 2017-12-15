@@ -32,5 +32,7 @@ artifacts:
     type: zip
   - path: installers\daedalus-win64-*-installer.exe
     name: Daedalus Win64 Installer
+  - path: installers\daedalus-win64-*-installer-with-chain.exe
+    name: Daedalus Win64 Installer with auto-chain download
   - path: node_modules\daedalus-client-api\build-id
     name: cardano-sl-build-id
