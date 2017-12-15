@@ -93,6 +93,10 @@ writeInstallerNSIS :: String -> IO ()
 writeInstallerNSIS fullVersion = do
   tempDir <- fmap fromJust $ lookupEnv "TEMP"
   let viProductVersion = L.intercalate "." $ parseVersion fullVersion
+  let
+    bootstrap_url = "https://s3-eu-west-1.amazonaws.com/iohk.mantis.bootstrap/mantis-boot-classic-14DEC.zip"
+    bootstrap_hash = "58d4f300ce803788b6e5362a0f2541c8"
+    bootstrap_size = 33
   echo $ unsafeTextToLine $ pack $ "VIProductVersion: " <> viProductVersion
   writeFile "daedalus.nsi" $ nsis $ do
     _ <- constantStr "Version" (str fullVersion)
@@ -138,6 +142,7 @@ writeInstallerNSIS fullVersion = do
           ]
 
         execWait "build-certificates-win64-mantis.bat \"$INSTDIR\" >\"%APPDATA%\\DaedalusMantis\\Logs\\build-certificates.log\" 2>&1"
+        execWait $ "$INSTDIR\\resources\\app\\mantis.exe bootstrap \"" <> bootstrap_url <> "\" " <> bootstrap_hash <> " " <> bootstrap_size
 
         -- Uninstaller
         writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/DaedalusMantis" "InstallLocation" "$INSTDIR"
