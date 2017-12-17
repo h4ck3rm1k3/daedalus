@@ -44,7 +44,7 @@ Invocation:
 
    The remaining `OPTIONS` are passed as-is to the respective build scripts.
 
-## Stepwise build
+## Stepwise build on Debian GNU/Linux
 
 ### Install NVM
 ```bash
