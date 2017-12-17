@@ -2,6 +2,12 @@
 
 Daedalus - cryptocurrency wallet
 
+## Components
+
+There are two parts to the wallet, the electron front end and the node js middleware that listens on port 4000.
+
+The middleware can run on a local server with no front end, but it will need to be modified to listen on an ip address, it listens by default to localhost only. 
+
 ## Automated build
 
 ### CI/dev build scripts
