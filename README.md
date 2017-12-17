@@ -2,6 +2,10 @@
 
 Daedalus - cryptocurrency wallet
 
+## hot mode vs cold mode
+
+If the electron is started with the HOT=1 env variable, the middleware server is loaded from localhost, otherwise the scripts are loaded from dist. 
+
 ## Components
 
 There are two parts to the wallet, the electron front end and the node js middleware that listens on port 4000.
