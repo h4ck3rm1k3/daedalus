@@ -1,6 +1,8 @@
 # daedalus
 
-Daedalus - cryptocurrency wallet debian build instructions
+![image](https://res.cloudinary.com/hpiynhbhq/image/upload/v1513540597/ny0x55mj8aj33mn1etz7.png)
+
+Daedalus - Cardano ADA cryptocurrency wallet debian build instructions
 
 These are my build instructions for Debian GNU/Linux, removed all notes about windows and mac osx.
 I am running the electron client on my laptop and the backend and middleware on my build server (debian-build-speed) that you see mentioned. The two ports needed are port forwarded via ssh.
@@ -37,41 +39,60 @@ The front end runs in chromium and talks to localhost using a tool called [elect
 
 ```bash
 $ npm run start-hot
-This in turn starts 
+```
+
+This creates this process tree 
+
+```
+sh -c cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./electron/main.development
+node /home/mdupont/experiments/daedalus/node_modules/.bin/cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./electron/main.development
+node /home/mdupont/experiments/daedalus/node_modules/.bin/electron -r babel-register -r babel-polyfill ./electron/main.development
+/home/mdupont/experiments/daedalus/node_modules/electron/dist/electron -r -r babel-register babel-polyfill ./electron/main.development
+/home/mdupont/experiments/daedalus/node_modules/electron/dist/electron --type=zygote --no-sandbox
 ```
 
 ### Middleware
 
-The middleware can be built 
-```bash
-$ npm install
-```
+The middleware can be built  and run.
 
 ```bash
 $ npm run hot-server
 ```
 
+This creates the process tree
+
+```  \_ node --preserve-symlinks -r babel-register webpack/server.js
+\_ /nix/store/6rjxsy8cr9ixqcdi1zhfgyrrvfrps14d-cardano-sl-wallet-1.0.3/bin/cardano-node --web --no-ntp --configuration-file /nix/store/249kd8ajyh87gcrs6n3mjf9alvf58avb-cardano-sl/node/configuration.yaml --configuration-key mainnet_full --tlscert /nix/store/249kd8ajyh87gcrs6n3mjf9alvf58avb-cardano-sl/scripts/tls-files/server.crt --tlskey /nix/store/249kd8ajyh87gcrs6n3mjf9alvf58avb-cardano-sl/scripts/tls-files/server.key --tlsca /nix/store/249kd8ajyh87gcrs6n3mjf9alvf58avb-cardano-sl/scripts/tls-files/ca.crt --log-config /nix/store/249kd8ajyh87gcrs6n3mjf9alvf58avb-cardano-sl/scripts/log-templates/log-config-qa.yaml --topology /nix/store/q40m4yycsizxvmqm1vp7pbmj3frar2vv-topology-mainnet --logs-prefix state-wallet-mainnet/logs --db-path state-wallet-mainnet/db --wallet-db-path state-wallet-mainnet/wallet-db --keyfile state-wallet-mainnet/secret.key
+```
+
 ### Port forwarding
-The middleware can run on a local server with no front end, but it will need to be modified to listen on an ip address, it 
-listens by default to localhost only. 
+
+The middleware can run on a local server with no front end, but it will need to be modified to listen on an ip address, it listens by default to localhost only. 
 
 If your middleware is running on another machine, in my case `debian-build-speed` you will need to port forward the connection
 
-    ssh -L 4000:localhost:4000 -L 8090:localhost:8090 debian-build-speed
+```
+ssh -L 4000:localhost:4000 -L 8090:localhost:8090 debian-build-speed
+```
 
 ### Backend port 8090
-Build the backend 
+
+Build the backend  according to these instructions 
 https://github.com/input-output-hk/cardano-sl/blob/master/docs/how-to/build-cardano-sl-and-daedalus-from-source-code.md
 
+```
     git checkout cardano-sl-1.0
-
     [nix-shell:~/cardano-sl]$ ./scripts/build/cardano-sl.sh 
+```
     
 Start the backend :
-
+```
     ./connect-to-mainnet
-
+```
 
 ## Open Issues
 https://utopian.io/utopian-io/@h4ck3rm1k3st33m/uncaught-syntaxerror-unexpected-end-of-json-input
 
+
+
+<br /><hr/><em>Posted on <a href="https://utopian.io/utopian-io/@h4ck3rm1k3st33m/building-on-debian-gnu-linux">Utopian.io -  Rewarding Open Source Contributors</a></em><hr/>
