@@ -1,6 +1,7 @@
 # daedalus
+Wallet is working !
+![image](https://steemitimages.com/DQmNQYgf4MSnDuottLQBXvcfJwsY8aNbyYBNjgu8GD3EZuc/image.png)
 
-![image](https://res.cloudinary.com/hpiynhbhq/image/upload/v1513540597/ny0x55mj8aj33mn1etz7.png)
 
 Daedalus - Cardano ADA cryptocurrency wallet debian build instructions
 
