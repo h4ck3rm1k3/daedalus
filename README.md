@@ -1,7 +1,8 @@
 # daedalus
 Wallet is working !
+My receive address is DdzFFzCqrhsjVNdJGABBkC8MKyWxnVDGtiJ4QBN7vkpQ5WQvu9AvxVCgd3gGS3eeJLkcu5auzHcbd2abSv5c22zajmxgeJDuoXYYxr3Q
 ![image](https://steemitimages.com/DQmNQYgf4MSnDuottLQBXvcfJwsY8aNbyYBNjgu8GD3EZuc/image.png)
-
+![DdzFFzCqrhsjVNdJGABBkC8MKyWxnVDGtiJ4QBN7vkpQ5WQvu9AvxVCgd3gGS3eeJLkcu5auzHcbd2abSv5c22zajmxgeJDuoXYYxr3Q](https://steemitimages.com/0x0/https://steemitimages.com/DQmQgS99msnGzhBr72485BYfSeAvraBT5nANqWuJU3cRYmr/image.png)
 
 Daedalus - Cardano ADA cryptocurrency wallet debian build instructions
 
