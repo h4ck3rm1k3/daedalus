@@ -58,7 +58,7 @@ node /home/mdupont/experiments/daedalus/node_modules/.bin/electron -r babel-regi
 The middleware can be built  and run.
 
 ```bash
-$ npm run hot-server
+$ NODE_ENV=development node --preserve-symlinks -r babel-register webpack/server.js --host 0.0.0.0
 ```
 
 This creates the process tree
